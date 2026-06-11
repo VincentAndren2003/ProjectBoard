@@ -10,8 +10,9 @@ export interface Project {
   accentSecondary: string
   icon: string
   github?: string
+  live?: string
   screenshots?: string[]
-  visual: 'mobile' | 'map' | 'chart' | 'notebook' | 'beer' | 'retail'
+  visual: 'mobile' | 'map' | 'chart' | 'notebook' | 'beer' | 'retail' | 'todo'
 }
 
 export const projects: Project[] = [
@@ -168,5 +169,32 @@ export const projects: Project[] = [
       '/screenshots/spik_3.png',
     ],
     visual: 'retail',
+  },
+  {
+    id: 'todo',
+    title: 'Todo App',
+    tagline: 'Stay on top of your day',
+    description:
+      'A clean, fully-featured todo app with Firebase real-time sync, Google & email auth, and dynamic Unsplash backgrounds. Tasks persist across devices instantly — add, check off, and undo deletions with smooth Framer Motion animations.',
+    type: 'Web App (PWA)',
+    tech: ['React 19', 'Vite', 'Firebase', 'Firestore', 'MUI', 'Framer Motion', 'Unsplash API'],
+    features: [
+      'Real-time sync via Firebase Firestore',
+      'Google OAuth & email/password authentication',
+      'Progress bar tracking completed tasks',
+      'Undo delete with snackbar notification',
+      'Dynamic Unsplash photo backgrounds',
+      'Deployed live on GitHub Pages',
+    ],
+    accent: '#3b82f6',
+    accentSecondary: '#6366f1',
+    icon: '✅',
+    live: 'https://VincentAndren2003.github.io/to-do-react/',
+    screenshots: [
+      '/screenshots/todo_1.png',
+      '/screenshots/todo_2.png',
+      '/screenshots/todo_3.png',
+    ],
+    visual: 'todo',
   },
 ]

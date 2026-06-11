@@ -211,6 +211,44 @@ function RetailVisual({ accent }: { accent: string }) {
   )
 }
 
+function TodoVisual({ accent }: { accent: string }) {
+  const items = ['Buy groceries', 'Read a book', 'Go for a run', 'Call mum']
+  return (
+    <svg viewBox="0 0 340 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+      <rect width="340" height="220" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+      {/* Sky bg strip */}
+      <rect width="340" height="220" rx="12" fill={`${accent}08`} />
+      {/* Header */}
+      <text x="170" y="30" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="16" fontWeight="700" fontFamily="Inter">Todos</text>
+      {/* Progress bar */}
+      <rect x="24" y="44" width="292" height="6" rx="3" fill="rgba(255,255,255,0.08)" />
+      <rect x="24" y="44" width="120" height="6" rx="3" fill={accent} opacity="0.7" />
+      {/* Input box */}
+      <rect x="24" y="60" width="230" height="28" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+      <text x="36" y="78" fill="rgba(255,255,255,0.25)" fontSize="11" fontFamily="Inter">Add a new todo…</text>
+      <rect x="262" y="60" width="54" height="28" rx="8" fill={`${accent}cc`} />
+      <text x="289" y="78" textAnchor="middle" fill="#fff" fontSize="11" fontWeight="600" fontFamily="Inter">ADD</text>
+      {/* Todo items */}
+      {items.map((label, i) => (
+        <g key={i}>
+          <rect x="24" y={100 + i * 27} width="292" height="22" rx="6" fill={i === 0 ? `${accent}10` : 'rgba(255,255,255,0.03)'} />
+          {/* Checkbox */}
+          <rect x="32" y={105 + i * 27} width="12" height="12" rx="3" fill={i === 0 ? accent : 'rgba(255,255,255,0.1)'} stroke={i === 0 ? accent : 'rgba(255,255,255,0.15)'} strokeWidth="1" />
+          {i === 0 && <path d={`M${34} ${111 + i * 27} l3 3 5-5`} stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />}
+          <text x="52" y={115 + i * 27} fill={i === 0 ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.75)'} fontSize="11" fontFamily="Inter"
+            style={i === 0 ? { textDecoration: 'line-through' } : {}}>
+            {i === 0 ? label : label}
+          </text>
+          {i === 0 && <line x1="52" y1={113 + i * 27} x2={52 + label.length * 5.8} y2={113 + i * 27} stroke="rgba(255,255,255,0.3)" strokeWidth="1" />}
+          {/* Delete icon */}
+          <circle cx="302" cy={111 + i * 27} r="7" fill="rgba(255,255,255,0.04)" />
+          <path d={`M${299} ${108 + i * 27} l6 6 m0-6 l-6 6`} stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeLinecap="round" />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 export default function ProjectVisual({ project }: { project: Project }) {
   const props = { accent: project.accent }
   switch (project.visual) {
@@ -220,5 +258,6 @@ export default function ProjectVisual({ project }: { project: Project }) {
     case 'notebook': return <NotebookVisual {...props} />
     case 'beer': return <BeerVisual {...props} />
     case 'retail': return <RetailVisual {...props} />
+    case 'todo': return <TodoVisual {...props} />
   }
 }
