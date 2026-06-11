@@ -42,7 +42,7 @@ export default function ScreenshotCarousel({ screenshots, accent, title, mobile 
           <AnimatePresence mode="wait" custom={direction}>
             <motion.img
               key={current}
-              src={screenshots[current]}
+              src={import.meta.env.BASE_URL + screenshots[current]}
               alt={`${title} screenshot ${current + 1}`}
               custom={direction}
               variants={{
@@ -135,7 +135,7 @@ export default function ScreenshotCarousel({ screenshots, accent, title, mobile 
         <AnimatePresence mode="wait" custom={direction}>
           <motion.img
             key={current}
-            src={screenshots[current]}
+            src={import.meta.env.BASE_URL + screenshots[current]}
             alt={`${title} screenshot ${current + 1}`}
             custom={direction}
             variants={{
