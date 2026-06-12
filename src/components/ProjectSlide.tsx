@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import type { Project } from '../data/projects'
 import ProjectVisual from './ProjectVisual'
 import ScreenshotCarousel from './ScreenshotCarousel'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 interface Props {
   project: Project
@@ -22,30 +23,32 @@ export default function ProjectSlide({ project, index }: Props) {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: false, margin: '-20% 0px -20% 0px' })
   const isEven = index % 2 === 0
+  const isMobile = useIsMobile()
 
   return (
     <section
       ref={ref}
       style={{
-        height: '100vh',
+        height: isMobile ? 'auto' : '100vh',
+        minHeight: isMobile ? '100svh' : undefined,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: isMobile ? 'flex-start' : 'center',
         justifyContent: 'center',
-        padding: 'clamp(24px, 5vw, 80px)',
+        padding: isMobile ? '88px 20px 64px' : 'clamp(24px, 5vw, 80px)',
         position: 'relative',
         zIndex: 1,
-        overflow: 'hidden',
+        overflow: isMobile ? 'visible' : 'hidden',
       }}
     >
       {/* Background glow */}
       <div
         style={{
           position: 'absolute',
-          top: '50%',
-          left: isEven ? '30%' : '70%',
+          top: isMobile ? '30%' : '50%',
+          left: isMobile ? '50%' : (isEven ? '30%' : '70%'),
           transform: 'translate(-50%, -50%)',
-          width: 600,
-          height: 600,
+          width: isMobile ? 280 : 600,
+          height: isMobile ? 280 : 600,
           background: `radial-gradient(circle, ${project.accent}18 0%, transparent 65%)`,
           pointerEvents: 'none',
           transition: 'opacity 1s ease',
@@ -56,8 +59,8 @@ export default function ProjectSlide({ project, index }: Props) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: isEven ? '1fr 1.1fr' : '1.1fr 1fr',
-          gap: 'clamp(32px, 5vw, 80px)',
+          gridTemplateColumns: isMobile ? '1fr' : (isEven ? '1fr 1.1fr' : '1.1fr 1fr'),
+          gap: isMobile ? 28 : 'clamp(32px, 5vw, 80px)',
           width: '100%',
           maxWidth: 1200,
           alignItems: 'center',
@@ -65,7 +68,7 @@ export default function ProjectSlide({ project, index }: Props) {
       >
         {/* Text side */}
         <motion.div
-          style={{ order: isEven ? 0 : 1 }}
+          style={{ order: isMobile ? 2 : (isEven ? 0 : 1) }}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
@@ -77,14 +80,15 @@ export default function ProjectSlide({ project, index }: Props) {
               display: 'flex',
               alignItems: 'center',
               gap: 12,
-              marginBottom: 20,
+              marginBottom: 16,
+              flexWrap: 'wrap',
             }}
           >
             <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', color: project.accent, opacity: 0.8 }}>
               {String(index + 1).padStart(2, '0')}
             </span>
             <div style={{ height: 1, width: 32, background: `${project.accent}44` }} />
-            <span style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.65rem', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>
               {project.type}
             </span>
           </motion.div>
@@ -94,7 +98,7 @@ export default function ProjectSlide({ project, index }: Props) {
             custom={1}
             variants={fadeUp}
             style={{
-              fontSize: 'clamp(2.2rem, 4.5vw, 4rem)',
+              fontSize: isMobile ? 'clamp(1.9rem, 9vw, 2.8rem)' : 'clamp(2.2rem, 4.5vw, 4rem)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
               lineHeight: 1.05,
@@ -110,9 +114,9 @@ export default function ProjectSlide({ project, index }: Props) {
             custom={2}
             variants={fadeUp}
             style={{
-              fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)',
+              fontSize: isMobile ? '0.95rem' : 'clamp(0.95rem, 1.5vw, 1.1rem)',
               color: project.accent,
-              marginBottom: 20,
+              marginBottom: 16,
               opacity: 0.85,
               fontWeight: 400,
             }}
@@ -125,10 +129,10 @@ export default function ProjectSlide({ project, index }: Props) {
             custom={3}
             variants={fadeUp}
             style={{
-              fontSize: 'clamp(0.85rem, 1.2vw, 0.95rem)',
+              fontSize: 'clamp(0.82rem, 1.2vw, 0.95rem)',
               color: 'rgba(255,255,255,0.55)',
               lineHeight: 1.7,
-              marginBottom: 28,
+              marginBottom: 20,
               maxWidth: 480,
             }}
           >
@@ -136,7 +140,7 @@ export default function ProjectSlide({ project, index }: Props) {
           </motion.p>
 
           {/* Features */}
-          <motion.ul custom={4} variants={fadeUp} style={{ listStyle: 'none', marginBottom: 28 }}>
+          <motion.ul custom={4} variants={fadeUp} style={{ listStyle: 'none', marginBottom: 24 }}>
             {project.features.map((f, i) => (
               <li
                 key={i}
@@ -144,8 +148,8 @@ export default function ProjectSlide({ project, index }: Props) {
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: 10,
-                  marginBottom: 8,
-                  fontSize: '0.85rem',
+                  marginBottom: 7,
+                  fontSize: '0.82rem',
                   color: 'rgba(255,255,255,0.55)',
                 }}
               >
@@ -159,15 +163,15 @@ export default function ProjectSlide({ project, index }: Props) {
           <motion.div
             custom={5}
             variants={fadeUp}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}
           >
             {project.tech.map(t => (
               <span
                 key={t}
                 style={{
-                  padding: '4px 12px',
+                  padding: '4px 11px',
                   borderRadius: 100,
-                  fontSize: '0.72rem',
+                  fontSize: '0.7rem',
                   border: `1px solid ${project.accent}33`,
                   color: `${project.accent}bb`,
                   background: `${project.accent}0d`,
@@ -184,7 +188,7 @@ export default function ProjectSlide({ project, index }: Props) {
             <motion.div
               custom={6}
               variants={fadeUp}
-              style={{ display: 'flex', gap: 10, marginTop: 24, flexWrap: 'wrap' }}
+              style={{ display: 'flex', gap: 10, marginTop: 20, flexWrap: 'wrap' }}
             >
               {project.github && (
                 <motion.a
@@ -233,7 +237,7 @@ export default function ProjectSlide({ project, index }: Props) {
         {/* Visual side */}
         <motion.div
           style={{
-            order: isEven ? 1 : 0,
+            order: isMobile ? 1 : (isEven ? 1 : 0),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -286,7 +290,7 @@ function ExternalIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-      <polyline points="15 3 21 3 21 9" />
+      <polyline points="15 3 21 9" />
       <line x1="10" y1="14" x2="21" y2="3" />
     </svg>
   )

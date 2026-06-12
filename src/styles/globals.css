@@ -41,6 +41,16 @@ section {
   background: rgba(124, 58, 237, 0.4);
 }
 
+/* Disable scroll snap on mobile — sections stack vertically */
+@media (max-width: 768px) {
+  html {
+    scroll-snap-type: none;
+  }
+  section {
+    scroll-snap-align: none;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
